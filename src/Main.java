@@ -1,47 +1,33 @@
-// Пример для новой предметной области: управление расписанием занятий и курсами
-
-import ActiveRecord.ClassSession;
-import ActiveRecord.Instructor;
-import ActiveRecord.InstructorFactory;
-import ActiveRecord.InstructorRepository;
-import DomainModel.Course;
-import DomainModel.Module;
-import DomainModel.CourseManagementService;
+import ActiveRecord.Driver;
+import ActiveRecord.DriverRepository;
 import TransactionScript.ScheduleTransactionScript;
-
-
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Создание фабрики и репозитория
-        InstructorRepository repository = new InstructorRepository();
-        Instructor instructor = InstructorFactory.createInstructor("John Doe", true);
-        repository.save(instructor);
+        // Создаём репозиторий и водителя
+        DriverRepository repository = new DriverRepository();
+        Driver driver = new Driver(1, "Иван Петров", true);
+        repository.save(driver);
 
-        // Создание транзакционного скрипта
+        // Создаём транзакционный скрипт
         ScheduleTransactionScript transactionScript = new ScheduleTransactionScript(repository);
 
-        // Добавление занятий
-        transactionScript.addClassToInstructor(instructor.getId(), LocalDateTime.of(2023, 12, 14, 10, 0), LocalDateTime.of(2023, 12, 14, 12, 0));
-        transactionScript.addClassToInstructor(instructor.getId(), LocalDateTime.of(2023, 12, 15, 14, 0), LocalDateTime.of(2023, 12, 15, 16, 0));
+        // Добавляем смены
+        transactionScript.addWorkShiftToDriver(1, LocalDateTime.of(2024, 4, 1, 2, 0), LocalDateTime.of(2024, 4, 1, 4, 0));
+        transactionScript.addWorkShiftToDriver(1, LocalDateTime.of(2024, 4, 1, 6, 0), LocalDateTime.of(2024, 4, 2, 18, 0));
 
-        // Проверка расписания
-        List<ClassSession> sessions = transactionScript.getClassesForInstructorOnDate(instructor.getId(), LocalDateTime.of(2023, 12, 14, 0, 0));
-        System.out.println("Занятия на 2023-12-14: " + sessions);
+        // Проверяем список смен
+        List<?> shifts = transactionScript.getShiftsForDriverOnDate(1, LocalDateTime.of(2024, 4, 1, 0, 0));
+        System.out.println("Смены на 2024-04-01: " + shifts);
 
-        // Проверка доступности
-        boolean isAvailable = transactionScript.checkInstructorAvailability(instructor.getId(), LocalDateTime.of(2023, 12, 14, 11, 0));
-        System.out.println("Доступность на 2023-12-14 11:00: " + isAvailable);
+        // Проверяем доступность водителя
+        boolean available = transactionScript.checkDriverAvailability(1, LocalDateTime.of(2024, 4, 1, 12, 0));
+        System.out.println("Доступность водителя в 12:00: " + available);
 
-        // Управление курсами
-        Course course = new Course(1, "Programming 101");
-        Module module = new Module("Introduction to Java", 10);
-        CourseManagementService courseService = new CourseManagementService();
-        courseService.enrollInstructorToCourse(instructor, course);
-        courseService.assignModuleToCourse(module, course);
-
-        System.out.println("Курс: " + course);
+        // Проверяем доступность водителя
+        available = transactionScript.checkDriverAvailability(1, LocalDateTime.of(2024, 4, 1, 5, 0));
+        System.out.println("Доступность водителя в 05:00: " + available);
     }
 }
