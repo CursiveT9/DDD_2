@@ -77,7 +77,7 @@ public class Main {
             System.out.println("Активность в заказе " + order2.getId() + " не вызывает подозрений.");
         }
 
-        TransportationOrder order3 = new TransportationOrder("ORDER-002", route);
+        TransportationOrder order3 = new TransportationOrder("ORDER-003", route);
 
         // Сохранение заказа в репозитории
         repository.save(order3);
