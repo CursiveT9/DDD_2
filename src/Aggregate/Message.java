@@ -3,11 +3,6 @@ package Aggregate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Сущность Message представляет сообщение, добавляемое к заявке.
- * Каждое сообщение имеет отправителя и получателя (которые могут быть CLIENT или DRIVER),
- * может содержать вложения и подтверждаться только противоположной стороной.
- */
 public class Message {
     private final String id;
     private final String content;

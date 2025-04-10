@@ -1,9 +1,5 @@
 package ValueObject;
 
-/**
- * Объект-значение OrderStatus представляет статус заявки.
- * Возможные статусы: OPEN, IN_PROGRESS, CLOSED, CANCELLED.
- */
 public final class OrderStatus {
     public enum Status {
         OPEN, IN_PROGRESS, CLOSED, CANCELLED

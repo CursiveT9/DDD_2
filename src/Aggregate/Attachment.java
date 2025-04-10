@@ -1,8 +1,5 @@
 package Aggregate;
 
-/**
- * Сущность Attachment представляет вложение, прикрепляемое к сообщению.
- */
 public class Attachment {
     private final String id;
     private final String fileName;

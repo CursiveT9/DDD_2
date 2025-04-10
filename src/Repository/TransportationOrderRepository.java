@@ -5,10 +5,6 @@ import Aggregate.TransportationOrder;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Репозиторий для хранения и получения агрегатов TransportationOrder.
- * Здесь используется in-memory хранилище для демонстрации работы.
- */
 public class TransportationOrderRepository {
     private final Map<String, TransportationOrder> storage = new HashMap<>();
 

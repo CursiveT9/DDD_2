@@ -7,11 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Агрегат TransportationOrder инкапсулирует бизнес-логику жизненного цикла заявки.
- * Здесь реализованы методы добавления сообщений, перехода заказа в состояние IN_PROGRESS,
- * закрытия заказа и автоматического закрытия при отсутствии активности.
- */
 public class TransportationOrder {
     private final String id;  // Уникальный идентификатор заказа
     private OrderStatus status;
@@ -51,9 +46,7 @@ public class TransportationOrder {
         lastActivity = LocalDateTime.now();
     }
 
-    /**
-     * Добавление сообщения в заказ возможно только если заказ находится в состоянии OPEN.
-     */
+    //    Добавление сообщения в заказ возможно только если заказ находится в состоянии OPEN.
     public void addMessage(Message message) {
         if (!(status.getStatus().equals(OrderStatus.Status.OPEN)
                 || status.getStatus().equals(OrderStatus.Status.IN_PROGRESS))) {
@@ -63,9 +56,7 @@ public class TransportationOrder {
         updateLastActivity();
     }
 
-    /**
-     * Перевод заказа в состояние IN_PROGRESS. Это действие возможно только из состояния OPEN.
-     */
+    //    Перевод заказа в состояние IN_PROGRESS. Это действие возможно только из состояния OPEN.
     public void startOrder() {
         if (!status.getStatus().equals(OrderStatus.Status.OPEN)) {
             throw new IllegalStateException("Заказ не может быть начат, т.к. он не в состоянии OPEN.");
@@ -74,16 +65,10 @@ public class TransportationOrder {
         updateLastActivity();
     }
 
-    /**
-     * Ручное закрытие заказа.
-     */
     public void closeOrder() {
         this.status = new OrderStatus(OrderStatus.Status.CLOSED);
     }
 
-    /**
-     * Автоматическое закрытие заказа, если время последней активности раньше порогового времени.
-     */
     public void autoCloseIfInactive(LocalDateTime thresholdTime) {
         // Проверяем, если время последней активности меньше порогового времени
         if (!lastActivity.isBefore(thresholdTime) && (status.getStatus().equals(OrderStatus.Status.OPEN))) {

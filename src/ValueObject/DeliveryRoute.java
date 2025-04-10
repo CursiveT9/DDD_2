@@ -1,9 +1,5 @@
 package ValueObject;
 
-/**
- * Объект-значение DeliveryRoute представляет маршрут доставки.
- * Содержит начальное местоположение, пункт назначения и расстояние в километрах.
- */
 public final class DeliveryRoute {
     private final String startLocation;
     private final String destination;
